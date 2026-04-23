@@ -472,11 +472,11 @@ function showTab(id,btn){
     document.querySelectorAll('#view-trends>.subview').forEach((v,i)=>v.classList.toggle('active',i===0));
     document.querySelectorAll('#trend-national>.subtabs .stab').forEach(b=>b.classList.toggle('active',b.textContent.trim()==='All Years'));
     document.querySelectorAll('#trend-national>.subview').forEach((v,i)=>v.classList.toggle('active',v.id==='nat-all'));
-    renderTrends(); renderCharts(); renderStateYearChart('all');
-    // Trigger All Years nat content
-    const allBtn=document.querySelector('#trend-national>.subtabs .stab:last-child');
-    if(allBtn) showNatYear('all',allBtn);
+    renderTrends(); renderCharts();
     document.querySelectorAll('.yr-btn').forEach(b=>{b.classList.toggle('active',b.textContent.trim()==='FFY '+CY);});
+    // Defer donut rendering until containers are fully painted
+    const allBtn=document.querySelector('#trend-national>.subtabs .stab:last-child');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{if(allBtn) showNatYear('all',allBtn);}));
   }
 }
 function updateMapTitle(){
@@ -498,6 +498,11 @@ function showTrendSubtab(id,btn){
   document.querySelectorAll('#view-trends>.subview').forEach(v=>v.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('trend-'+id).classList.add('active');
+  if(id==='state'){
+    // Ensure All Years (Cumulative) is the active tab
+    document.querySelectorAll('#trend-state .stab').forEach(b=>b.classList.toggle('active',b.textContent.trim()==='All Years (Cumulative)'));
+    requestAnimationFrame(()=>requestAnimationFrame(()=>renderStateYearChart('all')));
+  }
 }
 function showNatYear(yr,btn){
   document.querySelectorAll('#trend-national>.subtabs .stab').forEach(b=>b.classList.remove('active'));
@@ -515,20 +520,8 @@ function showNatYear(yr,btn){
       <div class="stat-item"><div class="stat-val">${fmt$(totalFFP)}</div><div class="stat-lbl">Total Claimed (FFP) — FFY2020–2023</div></div>
       <div class="stat-divider"></div>
       <div class="stat-item"><div class="stat-val">${everClaimed.size}</div><div class="stat-lbl">Jurisdictions That Have Claimed</div></div>`;
-    // Cumulative donuts — defer to ensure containers are visible
-    setTimeout(()=>{
-    const allD=YEARS.flatMap(y=>ALL[y]);
-    renderDonut('donut1-all',[
-      {label:'Prevention Services',value:allD.reduce((s,d)=>s+Math.max(d.total_psp_ffp,0),0),color:'#213368'},
-      {label:'Administration',value:allD.reduce((s,d)=>s+Math.max(d.admin_ffp,0),0),color:'#8b0021'},
-      {label:'Training',value:allD.reduce((s,d)=>s+Math.max(d.training_ffp,0),0),color:'#7a8694'}
-    ]);
-    renderDonut('donut2-all',[
-      {label:'Well Supported',value:allD.reduce((s,d)=>s+Math.max(d.well_supported_ffp,0),0),color:'#213368'},
-      {label:'Supported',value:allD.reduce((s,d)=>s+Math.max(d.supported_ffp,0),0),color:'#2a5caa'},
-      {label:'Promising',value:allD.reduce((s,d)=>s+Math.max(d.promising_ffp,0),0),color:'#1c9ad6'}
-    ]);
-    },50);
+    // Force re-render donuts (already pre-rendered but re-render to be safe)
+    preRenderAllDonuts();
   } else {
     renderNatYear(yr);
   }
@@ -558,7 +551,7 @@ function renderNatYear(yr){
       <div class="chart-sub">FFY ${yr}</div>
       <div class="donut-wrap" id="donut2-${yr}"></div>
     </div>`;
-  setTimeout(()=>{
+  const renderYrDonuts=()=>{
   renderDonut('donut1-'+yr,[
     {label:'Prevention Services',value:d.reduce((s,r)=>s+Math.max(r.total_psp_ffp,0),0),color:'#213368'},
     {label:'Administration',value:d.reduce((s,r)=>s+r.admin_ffp,0),color:'#8b0021'},
@@ -569,7 +562,8 @@ function renderNatYear(yr){
     {label:'Supported',value:d.reduce((s,r)=>s+Math.max(r.supported_ffp,0),0),color:'#2a5caa'},
     {label:'Promising',value:d.reduce((s,r)=>s+Math.max(r.promising_ffp,0),0),color:'#1c9ad6'}
   ]);
-  },50);
+  };
+  requestAnimationFrame(()=>requestAnimationFrame(renderYrDonuts));
 }
 function backToMap(){
   document.getElementById('view-profile').classList.remove('active');
@@ -959,7 +953,9 @@ function renderCharts(){
   }
 }
 function renderDonut(id,segs){
-  const wrap=document.getElementById(id),total=segs.reduce((s,d)=>s+d.value,0);
+  const wrap=document.getElementById(id);
+  if(!wrap) return;
+  const total=segs.reduce((s,d)=>s+d.value,0);
   const sz=150,cx=75,cy=75,ro=63,ri=34;
   let s=`<svg width="${sz}" height="${sz}" style="display:block;">`;
   let ang=-Math.PI/2;
@@ -968,6 +964,25 @@ function renderDonut(id,segs){
   let leg='<div class="donut-legend">';
   segs.forEach(seg=>{const p=total>0?Math.round(seg.value/total*100):0;leg+=`<div class="dleg-item"><div class="dleg-dot" style="background:${seg.color}"></div><div><strong>${seg.label}</strong><br>${fmt$(seg.value)} (${p}%)</div></div>`;});
   wrap.innerHTML=s+leg+'</div>';
+}
+
+function preRenderAllDonuts(){
+  // Temporarily make nat-all visible, render donuts, then hide again
+  const natAll=document.getElementById('nat-all');
+  const wasHidden=!natAll.classList.contains('active');
+  if(wasHidden) natAll.style.display='block';
+  const allD=YEARS.flatMap(y=>ALL[y]);
+  renderDonut('donut1-all',[
+    {label:'Prevention Services',value:allD.reduce((s,d)=>s+Math.max(d.total_psp_ffp,0),0),color:'#213368'},
+    {label:'Administration',value:allD.reduce((s,d)=>s+Math.max(d.admin_ffp,0),0),color:'#8b0021'},
+    {label:'Training',value:allD.reduce((s,d)=>s+Math.max(d.training_ffp,0),0),color:'#7a8694'}
+  ]);
+  renderDonut('donut2-all',[
+    {label:'Well Supported',value:allD.reduce((s,d)=>s+Math.max(d.well_supported_ffp,0),0),color:'#213368'},
+    {label:'Supported',value:allD.reduce((s,d)=>s+Math.max(d.supported_ffp,0),0),color:'#2a5caa'},
+    {label:'Promising',value:allD.reduce((s,d)=>s+Math.max(d.promising_ffp,0),0),color:'#1c9ad6'}
+  ]);
+  if(wasHidden) natAll.style.display='';
 }
 
 // ── TRENDS TAB ──
@@ -979,7 +994,7 @@ function renderTrends(){
   const counts=YEARS.map(y=>ALL[y].filter(d=>d.total_ffp>0).length);
 
   const lineChart=(vals,fmt,color,id)=>{
-    const W=500,H=190,mL=76,mR=20,mT=24,mB=38,plotH=H-mT-mB,plotW=W-mL-mR;
+    const W=500,H=230,mL=76,mR=20,mT=28,mB=38,plotH=H-mT-mB,plotW=W-mL-mR;
     const mxV=Math.max(...vals)*1.1;
     let s=`<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;font-family:DM Sans,sans-serif;">`;
     const tV=mxV>1e8?[0,50e6,100e6,150e6,200e6]:mxV>1e6?[0,5e6,10e6,15e6]:mxV>1000?[0,5000,10000,15000,20000]:[0,5,10,15,20,25,30];
@@ -988,7 +1003,7 @@ function renderTrends(){
     const yP=v=>mT+plotH*(1-v/mxV);
     const pts=YEARS.map((_,i)=>`${xP(i)},${yP(vals[i])}`).join(' ');
     s+=`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round"/>`;
-    YEARS.forEach((yr,i)=>{s+=`<circle cx="${xP(i)}" cy="${yP(vals[i])}" r="5" fill="${color}" data-tip="<b>FY${yr}</b>${fmt(vals[i])}" style="cursor:default" onmouseenter="tipFA(event,this)" onmousemove="mvTip(event)" onmouseleave="hideTip()"/><text x="${xP(i)}" y="${yP(vals[i])-11}" text-anchor="middle" font-size="8" fill="${color}" font-weight="600">${fmt(vals[i])}</text><text x="${xP(i)}" y="${H-mB+14}" text-anchor="middle" font-size="10" fill="#5a6472">FY${yr}</text>`;});
+    YEARS.forEach((yr,i)=>{s+=`<circle cx="${xP(i)}" cy="${yP(vals[i])}" r="5" fill="${color}" data-tip="<b>FFY${yr}</b> ${fmt(vals[i])}" style="cursor:pointer" onmouseenter="tipFA(event,this)" onmousemove="mvTip(event)" onmouseleave="hideTip()"/><text x="${xP(i)}" y="${yP(vals[i])-11}" text-anchor="middle" font-size="8" fill="${color}" font-weight="600">${fmt(vals[i])}</text><text x="${xP(i)}" y="${H-mB+14}" text-anchor="middle" font-size="9" fill="#5a6472">FFY${yr}</text>`;});
     s+='</svg>';
     document.getElementById(id).innerHTML=s;
   };
@@ -1036,7 +1051,7 @@ function showStateTrendYear(yr, btn){
   currentStateTrendYear = yr;
   document.querySelectorAll('#trend-state .stab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  renderStateYearChart(yr);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>renderStateYearChart(yr)));
 }
 
 function renderStateYearChart(yr){
@@ -1110,6 +1125,8 @@ function renderStateYearChart(yr){
 // ── INIT ──
 CY=2023;
 updateHeader(); buildMap(); renderTable(); updateMapTitle();
+// Pre-render all donuts so they are ready when tabs are opened
+renderTrends(); preRenderAllDonuts();
 document.querySelectorAll('.cur-yr-lbl').forEach(e=>e.textContent=CY);
 // Set FY2023 active on map sub-tabs
 document.querySelectorAll('#view-map>.subtabs .stab').forEach(b=>{
