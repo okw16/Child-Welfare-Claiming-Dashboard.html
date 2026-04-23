@@ -91,7 +91,7 @@ main{padding:20px 36px;}
 
 /* ── TILE MAP ── */
 .map-wrap{background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px;}
-.map-wrap h2{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:1rem;margin-bottom:3px;}
+.map-wrap h2{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.9rem,1.3vw,1.3rem);margin-bottom:3px;}
 .map-sub{font-size:.7rem;color:var(--slate);margin-bottom:14px;line-height:1.5;}
 #tile-map{display:grid;gap:3px;width:100%;max-width:100%;}
 .tile{display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;transition:transform .13s,box-shadow .13s;aspect-ratio:1;}
@@ -129,8 +129,8 @@ main{padding:20px 36px;}
 .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
 .pcard{background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px;}
 .pcard.full{grid-column:1/-1;}
-.pcard-title{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:.95rem;margin-bottom:2px;}
-.pcard-sub{font-size:.68rem;color:var(--slate);margin-bottom:14px;}
+.pcard-title{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(.88rem,1.3vw,1.25rem);margin-bottom:2px;}
+.pcard-sub{font-size:clamp(.62rem,0.85vw,.82rem);color:var(--slate);margin-bottom:14px;}
 
 /* Toggle $ / % */
 .toggle-wrap{display:flex;align-items:center;gap:6px;float:right;margin-top:-2px;}
@@ -195,8 +195,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;}
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .chart-card{background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px;}
 .chart-card.full{grid-column:1/-1;}
-.chart-title{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:1.05rem;font-weight:600;margin-bottom:4px;color:#1a2b5e;}
-.chart-sub{font-size:.72rem;color:var(--slate);margin-bottom:12px;letter-spacing:.02em;}
+.chart-title{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.95rem,1.1vw,1.15rem);font-weight:600;margin-bottom:4px;color:#1a2b5e;}
+.chart-sub{font-size:clamp(.65rem,0.9vw,.85rem);color:var(--slate);margin-bottom:12px;letter-spacing:.02em;}
 .bcs{overflow-x:auto;}
 .donut-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .donut-legend{flex:1;min-width:130px;}
