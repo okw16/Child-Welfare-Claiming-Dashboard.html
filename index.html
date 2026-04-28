@@ -57,9 +57,9 @@ body{font-family:'Segoe UI','DM Sans',sans-serif;background:var(--cream);color:v
 
 /* ── HEADER ── */
 header{background:linear-gradient(135deg,#172444 0%,#213368 100%);border-bottom:4px solid #8b0021;color:var(--cream);padding:24px 36px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;}
-.hdr-left h1{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(1.4rem,2.5vw,2.1rem);line-height:1.15;letter-spacing:-.02em;}
+.hdr-left h1{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(1.4rem,2.5vw,2.6rem);line-height:1.15;letter-spacing:-.02em;}
 .hdr-left h1 em{font-style:italic;color:#1c9ad6;}
-.hdr-meta{font-size:.7rem;color:#a8c0d8;margin-top:4px;letter-spacing:.02em;}
+.hdr-meta{font-size:clamp(.65rem,0.85vw,.95rem);color:#a8c0d8;margin-top:4px;letter-spacing:.02em;}
 .hstats{display:flex;gap:22px;flex-wrap:wrap;}
 .hstat{text-align:right;}
 .hstat-val{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:1.4rem;color:#1d99d5;line-height:1;}
@@ -74,7 +74,7 @@ header{background:linear-gradient(135deg,#172444 0%,#213368 100%);border-bottom:
 
 /* ── MAIN TABS ── */
 .tabs{background:#111d38;border-top:4px solid #8b0021;border-bottom:none;padding:0 36px;display:flex;}
-.tab-btn{background:none;border:none;color:#8090a8;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:9px 15px;cursor:pointer;border-bottom:3px solid transparent;transition:all .17s;}
+.tab-btn{background:none;border:none;color:#8090a8;font-family:'DM Sans',sans-serif;font-size:clamp(.72rem,0.9vw,1rem);font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:clamp(8px,1vw,14px) clamp(12px,1.5vw,22px);cursor:pointer;border-bottom:3px solid transparent;transition:all .17s;}
 .tab-btn:hover{color:var(--cream);}
 .tab-btn.active{color:#1c9ad6;border-bottom-color:#8b0021;}
 
@@ -91,7 +91,7 @@ main{padding:20px 36px;}
 
 /* ── TILE MAP ── */
 .map-wrap{background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px;}
-.map-wrap h2{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.9rem,1.3vw,1.3rem);margin-bottom:3px;}
+.map-wrap h2{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.9rem,1.3vw,1.5rem);margin-bottom:3px;}
 .map-sub{font-size:.7rem;color:var(--slate);margin-bottom:14px;line-height:1.5;}
 #tile-map{display:grid;gap:3px;width:100%;max-width:100%;}
 .tile{display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;transition:transform .13s,box-shadow .13s;aspect-ratio:1;}
@@ -104,13 +104,13 @@ main{padding:20px 36px;}
 .tile.nodata span{color:#aaa;}
 .empty{pointer-events:none;}
 .legend-wrap{margin-top:14px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;}
-.legend-scale{}
-.legend-title{font-size:.67rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);margin-bottom:5px;}
-.legend-grad{width:180px;height:10px;border-radius:5px;background:linear-gradient(to right,#d6eef8,#2a5caa,#213368);}
-.legend-labels{display:flex;justify-content:space-between;width:180px;font-size:.62rem;color:var(--slate);margin-top:2px;}
-.legend-keys{display:flex;flex-direction:column;gap:3px;margin-top:2px;}
-.lkey{font-size:.63rem;color:var(--slate);display:flex;align-items:center;gap:5px;}
-.lsw{width:11px;height:11px;border-radius:2px;flex-shrink:0;}
+.legend-scale{width:clamp(180px,25vw,420px);}
+.legend-title{font-size:clamp(.62rem,0.9vw,.85rem);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);margin-bottom:5px;}
+.legend-grad{width:100%;height:clamp(8px,1vw,14px);border-radius:5px;background:linear-gradient(to right,#d6eef8,#2a5caa,#213368);}
+.legend-labels{display:flex;justify-content:space-between;width:100%;font-size:clamp(.58rem,0.75vw,.78rem);color:var(--slate);margin-top:2px;}
+.legend-keys{display:flex;flex-direction:column;gap:clamp(3px,0.4vw,7px);margin-top:2px;}
+.lkey{font-size:clamp(.6rem,0.85vw,.82rem);color:var(--slate);display:flex;align-items:center;gap:5px;}
+.lsw{width:clamp(10px,1.2vw,16px);height:clamp(10px,1.2vw,16px);border-radius:2px;flex-shrink:0;}
 
 /* ── STATE PROFILE ── */
 #view-profile{animation:fadeIn .2s ease;}
@@ -195,7 +195,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;}
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .chart-card{background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px;}
 .chart-card.full{grid-column:1/-1;}
-.chart-title{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.95rem,1.1vw,1.15rem);font-weight:600;margin-bottom:4px;color:#1a2b5e;}
+.chart-title{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.95rem,1.1vw,1.25rem);font-weight:600;margin-bottom:4px;color:#1a2b5e;}
 .chart-sub{font-size:clamp(.65rem,0.9vw,.85rem);color:var(--slate);margin-bottom:12px;letter-spacing:.02em;}
 .bcs{overflow-x:auto;}
 .donut-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
@@ -245,20 +245,23 @@ footer a{color:#2a5caa;}
 <!-- MAP VIEW -->
 <div id="view-map" class="view active">
   <div class="subtabs" style="margin-bottom:18px;">
-    <button class="stab active" onclick="showMapYear(2020,this)">FFY 2020</button>
+    <button class="stab" onclick="showMapYear(2020,this)">FFY 2020</button>
     <button class="stab" onclick="showMapYear(2021,this)">FFY 2021</button>
     <button class="stab" onclick="showMapYear(2022,this)">FFY 2022</button>
-    <button class="stab" onclick="showMapYear(2023,this)">FFY 2023</button>
+    <button class="stab active" onclick="showMapYear(2023,this)">FFY 2023</button>
   </div>
   <div class="map-wrap">
     <h2 id="map-title">State Variation in IV-E Prevention Claiming — Total Claimed (FFP) · FFY 2023</h2>
     <p class="map-sub">Click any state tile to open its full profile.</p>
+    <div id="map-stat-banner" class="nat-stat-row" style="margin-bottom:14px;"></div>
     <div id="tile-map"></div>
     <div class="legend-wrap">
       <div class="legend-scale">
-        <div class="legend-title" id="legend-title">Total Claimed (FFP)</div>
+        <div class="legend-title" id="legend-title">Prevention Claiming by State (FFP)</div>
         <div class="legend-grad"></div>
-        <div class="legend-labels"><span>$0</span><span id="legend-max"></span></div>
+        <div class="legend-labels" id="legend-labels">
+          <span>$0</span><span id="legend-mid"></span><span id="legend-max"></span>
+        </div>
       </div>
       <div class="legend-keys">
         <div class="lkey"><div class="lsw" style="background:#f5e6c8"></div>Approved plan — $0 reported this FY</div>
@@ -362,21 +365,8 @@ footer a{color:#2a5caa;}
       <div class="nat-stat-row" id="nat-stat-all"></div>
       <div class="trends-grid">
         <div class="chart-card full">
-          <div class="chart-title">Total IV-E Prevention Claiming — FFY2020–2023</div>
-          <div id="nat-trend"></div>
-        </div>
-        <div class="chart-card full">
           <div class="chart-title">IV-E Prevention Claiming by Cost Category — FFY2020–2023</div>
           <div id="nat-stack"></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Number of States Claiming IV-E Prevention Services by Year</div>
-          <div id="claiming-trend"></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Children Served Over Time — FFY2020–2023</div>
-          <div class="chart-sub">Average monthly children served nationally.</div>
-          <div id="caseload-trend"></div>
         </div>
         <div class="chart-card">
           <div class="chart-title">IV-E Prevention Claiming by Cost Category</div>
@@ -387,6 +377,15 @@ footer a{color:#2a5caa;}
           <div class="chart-title">Prevention Services Evidence Tier — Claiming Breakdown</div>
           <div class="chart-sub">Cumulative · FFY2020–2023</div>
           <div class="donut-wrap" id="donut2-all"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Number of States Claiming IV-E Prevention Services by Year</div>
+          <div id="claiming-trend"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Children Served Over Time — FFY2020–2023</div>
+          <div class="chart-sub">Average monthly children served nationally.</div>
+          <div id="caseload-trend"></div>
         </div>
       </div>
     </div>
@@ -411,8 +410,9 @@ footer a{color:#2a5caa;}
 </main>
 
 <footer>
-  <div><strong>Source:</strong> <a href="https://acf.gov/cb/report/title-iv-e-programs-expenditure-and-caseload-data" target="_blank">ACF Title IV-E Expenditure &amp; Caseload Data</a> · FY2020–2023</div>
+  <div><strong>Source:</strong> <a href="https://acf.gov/cb/report/title-iv-e-programs-expenditure-and-caseload-data" target="_blank">ACF Title IV-E Expenditure &amp; Caseload Data</a> · FFY2020–2023</div>
   <div>Related: <a href="https://cynburnson.github.io/ffpsa/" target="_blank">FFPSA EBP Explorer</a> &nbsp;·&nbsp; <a href="https://taggs.hhs.gov/" target="_blank">TAGGS Grant Awards</a></div>
+  <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.15);font-style:italic;">* All dollar figures represent the federal financial participation (FFP) share only and do not include state or local contributions to total program costs.</div>
 </footer>
 
 <script>
@@ -422,7 +422,7 @@ const ALL = {"2020":[{"state":"Arkansas","abbr":"AR","plan_date":"10/01/2019","w
 const YEARS=[2020,2021,2022,2023];
 const YC={2020:'#a8d4ed',2021:'#1c9ad6',2022:'#2a5caa',2023:'#213368'};
 const GRID=[[0,0,'AK'],[0,10,'ME'],[1,9,'VT'],[1,10,'NH'],[2,0,'WA'],[2,1,'ID'],[2,2,'MT'],[2,3,'ND'],[2,4,'MN'],[2,6,'MI'],[2,8,'NY'],[2,9,'MA'],[2,10,'RI'],[3,0,'OR'],[3,1,'NV'],[3,2,'WY'],[3,3,'SD'],[3,4,'WI'],[3,5,'IL'],[3,6,'IN'],[3,7,'OH'],[3,8,'PA'],[3,9,'NJ'],[3,10,'CT'],[4,0,'CA'],[4,1,'UT'],[4,2,'CO'],[4,3,'NE'],[4,4,'IA'],[4,5,'MO'],[4,6,'KY'],[4,7,'WV'],[4,8,'VA'],[4,9,'MD'],[4,10,'DE'],[5,1,'AZ'],[5,2,'NM'],[5,3,'KS'],[5,4,'AR'],[5,5,'TN'],[5,6,'NC'],[5,7,'SC'],[5,8,'DC'],[6,2,'OK'],[6,3,'LA'],[6,4,'MS'],[6,5,'AL'],[6,6,'GA'],[7,3,'TX'],[7,6,'FL'],[8,0,'HI']];
-const ML={total_ffp:'Total Claimed (FFP)',total_psp_ffp:'Prevention Services',admin_ffp:'Admin & Training',caseload:'Avg Monthly Caseload'};
+const ML={total_ffp:'Prevention Claiming by State (FFP)',total_psp_ffp:'Prevention Services',admin_ffp:'Admin & Training',caseload:'Avg Monthly Caseload'};
 
 let CY=2023,CM='total_ffp',SC='state',SA=true;
 let chartsBuilt=false,trendsBuilt=false;
@@ -598,8 +598,19 @@ function buildMap(){
     } else {div.className='empty';div.style.background='transparent';}
     cont.appendChild(div);
   }}
-  document.getElementById('legend-title').textContent=ML[CM];
+  document.getElementById('legend-title').textContent=CM==='caseload'?ML[CM]:`Prevention Claiming by State (FFP) · FFY ${CY}`;
   document.getElementById('legend-max').textContent=CM==='caseload'?fmtN(mxV):fmt$(mxV);
+  document.getElementById('legend-mid').textContent=CM==='caseload'?fmtN(Math.round(mxV/2)):fmt$(mxV/2);
+
+  // National FFP stat banner for selected year
+  const yearData=cd();
+  const totalFFP=yearData.reduce((s,d)=>s+Math.max(d.total_ffp,0),0);
+  const claimingCount=yearData.filter(d=>d.total_ffp>0).length;
+  const banner=document.getElementById('map-stat-banner');
+  if(banner) banner.innerHTML=`
+    <div class="stat-item"><div class="stat-val">${fmt$(totalFFP)}</div><div class="stat-lbl">Total IV-E Prevention Claiming (FFP) · FFY ${CY}</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><div class="stat-val">${claimingCount}</div><div class="stat-lbl">States Claiming · FFY ${CY}</div></div>`;
 }
 
 // ── STATE PROFILE ──
@@ -733,7 +744,7 @@ function stackedSVG(years,layers,opts){
   ticks.forEach(t=>{
     const y=mT+plotH*(1-t/maxV);
     s+=`<line x1="${mL}" x2="${W-mR}" y1="${y}" y2="${y}" stroke="#e8eaed" stroke-dasharray="3,3"/>`;
-    s+=`<text x="${mL-5}" y="${y+4}" text-anchor="end" font-size="10" fill="#8090a8">${mode==='%'?t+'%':fmt$(t)}</text>`;
+    s+=`<text x="${mL-5}" y="${y+4}" text-anchor="end" font-size="8" fill="#8090a8">${mode==='%'?t+'%':(t===0?'$0':'$'+Math.round(t/1e6)+'M')}</text>`;
   });
 
   years.forEach((yr,i)=>{
@@ -752,15 +763,15 @@ function stackedSVG(years,layers,opts){
         if(showPct&&mode==='$'&&total>0){
           const pctVal=Math.round(raw/total*100);
           if(bh>=14){
-            s+=`<text x="${x+bW/2}" y="${y+bh/2+4}" text-anchor="middle" font-size="10" fill="white" font-weight="600" pointer-events="none">${pctVal}%</text>`;
+            s+=`<text x="${x+bW/2}" y="${y+bh/2+4}" text-anchor="middle" font-size="8" fill="white" font-weight="600" pointer-events="none">${pctVal}%</text>`;
           } else if(bh>0){
-            s+=`<text x="${x+bW/2}" y="${y-3}" text-anchor="middle" font-size="9" fill="${l.color}" font-weight="600" pointer-events="none">${pctVal}%</text>`;
+            s+=`<text x="${x+bW/2}" y="${y-3}" text-anchor="middle" font-size="7" fill="${l.color}" font-weight="600" pointer-events="none">${pctVal}%</text>`;
           }
         }
         if(mode==='%'&&bh>=14){
-          s+=`<text x="${x+bW/2}" y="${y+bh/2+4}" text-anchor="middle" font-size="10" fill="white" font-weight="600" pointer-events="none">${Math.round(val)}%</text>`;
+          s+=`<text x="${x+bW/2}" y="${y+bh/2+4}" text-anchor="middle" font-size="8" fill="white" font-weight="600" pointer-events="none">${Math.round(val)}%</text>`;
         } else if(mode==='%'&&bh>0){
-          s+=`<text x="${x+bW/2}" y="${y-3}" text-anchor="middle" font-size="9" fill="${l.color}" font-weight="600" pointer-events="none">${Math.round(val)}%</text>`;
+          s+=`<text x="${x+bW/2}" y="${y-3}" text-anchor="middle" font-size="7" fill="${l.color}" font-weight="600" pointer-events="none">${Math.round(val)}%</text>`;
         }
         yOff+=bh;
       }
@@ -768,9 +779,9 @@ function stackedSVG(years,layers,opts){
     // total label on top
     if(total>0){
       const topY=mT+plotH-yOff-5;
-      s+=`<text x="${x+bW/2}" y="${topY}" text-anchor="middle" font-size="9" fill="#5a6472">${mode==='%'?'':fmt$(total)}</text>`;
+      s+=`<text x="${x+bW/2}" y="${topY}" text-anchor="middle" font-size="8" fill="#5a6472">${mode==='%'?'':fmt$(total)}</text>`;
     }
-    s+=`<text x="${x+bW/2}" y="${H-mB+14}" text-anchor="middle" font-size="11" fill="#5a6472">FY${yr}</text>`;
+    s+=`<text x="${x+bW/2}" y="${H-mB+14}" text-anchor="middle" font-size="9" fill="#5a6472">FFY${yr}</text>`;
     // highlight current year
     
   });
@@ -993,24 +1004,35 @@ function renderTrends(){
   const caseloads=YEARS.map(y=>ALL[y].reduce((s,d)=>s+d.caseload,0));
   const counts=YEARS.map(y=>ALL[y].filter(d=>d.total_ffp>0).length);
 
-  const lineChart=(vals,fmt,color,id)=>{
-    const W=500,H=230,mL=76,mR=20,mT=28,mB=38,plotH=H-mT-mB,plotW=W-mL-mR;
-    const mxV=Math.max(...vals)*1.1;
+  const simpleBarChart=(vals,fmt,color,id)=>{
+    const W=500,H=230,mL=60,mR=20,mT=28,mB=45,plotH=H-mT-mB,plotW=W-mL-mR;
+    const mxV=Math.max(...vals)*1.15;
+    const bW=plotW/YEARS.length*0.55;
+    const gap=plotW/YEARS.length;
     let s=`<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;font-family:DM Sans,sans-serif;">`;
-    const tV=mxV>1e8?[0,50e6,100e6,150e6,200e6]:mxV>1e6?[0,5e6,10e6,15e6]:mxV>1000?[0,5000,10000,15000,20000]:[0,5,10,15,20,25,30];
-    tV.filter(t=>t<=mxV).forEach(t=>{const y=mT+plotH*(1-t/mxV);s+=`<line x1="${mL}" x2="${W-mR}" y1="${y}" y2="${y}" stroke="#e8eaed" stroke-dasharray="3,3"/><text x="${mL-5}" y="${y+4}" text-anchor="end" font-size="8" fill="#8090a8">${fmt(t)}</text>`;});
-    const xP=i=>mL+i*(plotW/(YEARS.length-1));
-    const yP=v=>mT+plotH*(1-v/mxV);
-    const pts=YEARS.map((_,i)=>`${xP(i)},${yP(vals[i])}`).join(' ');
-    s+=`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round"/>`;
-    YEARS.forEach((yr,i)=>{s+=`<circle cx="${xP(i)}" cy="${yP(vals[i])}" r="5" fill="${color}" data-tip="<b>FFY${yr}</b> ${fmt(vals[i])}" style="cursor:pointer" onmouseenter="tipFA(event,this)" onmousemove="mvTip(event)" onmouseleave="hideTip()"/><text x="${xP(i)}" y="${yP(vals[i])-11}" text-anchor="middle" font-size="8" fill="${color}" font-weight="600">${fmt(vals[i])}</text><text x="${xP(i)}" y="${H-mB+14}" text-anchor="middle" font-size="9" fill="#5a6472">FFY${yr}</text>`;});
+    // Gridlines and y-axis labels
+    const steps=5;
+    for(let i=0;i<=steps;i++){
+      const t=Math.round(mxV/steps*i);
+      const y=mT+plotH*(1-t/mxV);
+      s+=`<line x1="${mL}" x2="${W-mR}" y1="${y}" y2="${y}" stroke="#e8eaed" stroke-dasharray="3,3"/>`;
+      s+=`<text x="${mL-5}" y="${y+4}" text-anchor="end" font-size="9" fill="#8090a8">${fmt(t)}</text>`;
+    }
+    // Bars
+    YEARS.forEach((yr,i)=>{
+      const x=mL+i*gap+(gap-bW)/2;
+      const bh=Math.max(plotH*vals[i]/mxV,2);
+      const y=mT+plotH-bh;
+      s+=`<rect x="${x}" y="${y}" width="${bW}" height="${bh}" rx="3" fill="${color}" opacity="0.85" data-tip="<b>FFY${yr}</b> ${fmt(vals[i])}" style="cursor:pointer" onmouseenter="tipFA(event,this)" onmousemove="mvTip(event)" onmouseleave="hideTip()"/>`;
+      s+=`<text x="${x+bW/2}" y="${y-6}" text-anchor="middle" font-size="9" fill="${color}" font-weight="600">${fmt(vals[i])}</text>`;
+      s+=`<text x="${x+bW/2}" y="${H-mB+16}" text-anchor="middle" font-size="10" fill="#5a6472">FFY${yr}</text>`;
+    });
     s+='</svg>';
     document.getElementById(id).innerHTML=s;
   };
 
-  lineChart(totals,fmt$,'#213368','nat-trend');
-  lineChart(counts,v=>v,'#8b0021','claiming-trend');
-  lineChart(caseloads,fmtN,'#2a5caa','caseload-trend');
+  simpleBarChart(counts,v=>v,'#8b0021','claiming-trend');
+  simpleBarChart(caseloads,fmtN,'#2a5caa','caseload-trend');
 
   // National stacked
   const ws=YEARS.map(y=>ALL[y].reduce((s,d)=>s+Math.max(d.well_supported_ffp,0),0));
@@ -1092,7 +1114,7 @@ function renderStateYearChart(yr){
   [0,5e6,10e6,15e6,20e6,25e6,30e6,35e6,40e6,45e6,50e6,60e6,70e6,80e6,90e6,100e6,125e6,150e6,175e6,200e6].filter(t=>t<=mxV*1.08).forEach(t=>{
     const y=mT+plotH*(1-t/(mxV*1.08));
     s+=`<line x1="${mL}" x2="${W-mR}" y1="${y}" y2="${y}" stroke="#e8eaed" stroke-dasharray="3,3"/>`;
-    s+=`<text x="${mL-5}" y="${y+4}" text-anchor="end" font-size="10" fill="#8090a8">${fmt$(t)}</text>`;
+    s+=`<text x="${mL-5}" y="${y+4}" text-anchor="end" font-size="10" fill="#8090a8">${t===0?'$0':'$'+Math.round(t/1e6)+'M'}</text>`;
   });
 
   states.forEach((d,i)=>{
@@ -1128,9 +1150,9 @@ updateHeader(); buildMap(); renderTable(); updateMapTitle();
 // Pre-render all donuts so they are ready when tabs are opened
 renderTrends(); preRenderAllDonuts();
 document.querySelectorAll('.cur-yr-lbl').forEach(e=>e.textContent=CY);
-// Set FY2023 active on map sub-tabs
+// Set FFY2023 active on map sub-tabs
 document.querySelectorAll('#view-map>.subtabs .stab').forEach(b=>{
-  b.classList.toggle('active', b.textContent.trim()==='FY 2023');
+  b.classList.toggle('active', b.textContent.trim()==='FFY 2023');
 });
 // Sync table year buttons
 document.querySelectorAll('#view-table .yr-btn').forEach(b=>{
