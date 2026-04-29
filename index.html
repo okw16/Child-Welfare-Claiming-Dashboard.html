@@ -90,10 +90,10 @@ main{padding:20px 36px;}
 .view.active{display:block;}
 
 /* ── TILE MAP ── */
-.map-wrap{background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px;}
-.map-wrap h2{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.9rem,1.3vw,1.5rem);margin-bottom:3px;}
-.map-sub{font-size:.7rem;color:var(--slate);margin-bottom:14px;line-height:1.5;}
-#tile-map{display:grid;gap:3px;width:100%;max-width:100%;}
+.map-wrap{background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.map-wrap h2{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(0.9rem,1.3vw,1.5rem);margin-bottom:3px;text-align:left;width:100%;}
+.map-sub{font-size:.7rem;color:var(--slate);margin-bottom:14px;line-height:1.5;text-align:left;width:100%;}
+#tile-map{display:grid;gap:2px;width:100%;max-width:min(680px,70vh);}
 .tile{display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;transition:transform .13s,box-shadow .13s;aspect-ratio:1;}
 .tile:hover{transform:scale(1.13);z-index:10;box-shadow:0 4px 14px rgba(0,0,0,.22);}
 .tile span{font-size:clamp(.55rem, 1.4vw, 1.4rem);font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45);pointer-events:none;}
@@ -103,14 +103,14 @@ main{padding:20px 36px;}
 .tile.nodata:hover{transform:none;box-shadow:none;}
 .tile.nodata span{color:#aaa;}
 .empty{pointer-events:none;}
-.legend-wrap{margin-top:14px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;}
-.legend-scale{width:clamp(180px,25vw,420px);}
-.legend-title{font-size:clamp(.62rem,0.9vw,.85rem);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);margin-bottom:5px;}
+.legend-wrap{margin-top:14px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:space-between;width:100%;}
+.legend-scale{width:clamp(180px,25vw,420px);text-align:left;}
+.legend-title{font-size:clamp(.62rem,0.9vw,.85rem);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);margin-bottom:5px;white-space:nowrap;}
 .legend-grad{width:100%;height:clamp(8px,1vw,14px);border-radius:5px;background:linear-gradient(to right,#d6eef8,#2a5caa,#213368);}
 .legend-labels{display:flex;justify-content:space-between;width:100%;font-size:clamp(.58rem,0.75vw,.78rem);color:var(--slate);margin-top:2px;}
-.legend-keys{display:flex;flex-direction:column;gap:clamp(3px,0.4vw,7px);margin-top:2px;}
-.lkey{font-size:clamp(.6rem,0.85vw,.82rem);color:var(--slate);display:flex;align-items:center;gap:5px;}
-.lsw{width:clamp(10px,1.2vw,16px);height:clamp(10px,1.2vw,16px);border-radius:2px;flex-shrink:0;}
+.legend-keys{display:flex;flex-direction:column;gap:clamp(3px,0.4vw,7px);margin-top:2px;text-align:left;align-items:flex-start;margin-left:auto;}
+.lkey{font-size:clamp(.72rem,1vw,1rem);color:var(--slate);display:flex;align-items:center;gap:5px;}
+.lsw{width:clamp(12px,1.4vw,18px);height:clamp(12px,1.4vw,18px);border-radius:2px;flex-shrink:0;}
 
 /* ── STATE PROFILE ── */
 #view-profile{animation:fadeIn .2s ease;}
@@ -253,8 +253,9 @@ footer a{color:#2a5caa;}
   <div class="map-wrap">
     <h2 id="map-title">State Variation in IV-E Prevention Claiming — Total Claimed (FFP) · FFY 2023</h2>
     <p class="map-sub">Click any state tile to open its full profile.</p>
-    <div id="map-stat-banner" class="nat-stat-row" style="margin-bottom:14px;"></div>
+    <div id="map-stat-banner" class="nat-stat-row" style="margin-bottom:14px;width:100%;justify-content:center;"></div>
     <div id="tile-map"></div>
+    <div style="width:100%;height:1px;background:linear-gradient(to right,#e0e4ea,#c8cdd6,#e0e4ea);margin:14px 0;"></div>
     <div class="legend-wrap">
       <div class="legend-scale">
         <div class="legend-title" id="legend-title">Prevention Claiming by State (FFP)</div>
@@ -264,8 +265,8 @@ footer a{color:#2a5caa;}
         </div>
       </div>
       <div class="legend-keys">
-        <div class="lkey"><div class="lsw" style="background:#f5e6c8"></div>Approved plan — $0 reported this FY</div>
-        <div class="lkey"><div class="lsw" style="background:#e4e4e4;border:1px dashed #aaa"></div>Not in dataset this FY</div>
+        <div class="lkey"><div class="lsw" style="background:#f5e6c8"></div>Approved plan — $0 reported this FFY</div>
+        <div class="lkey"><div class="lsw" style="background:#e4e4e4;border:1px dashed #aaa"></div>Not in dataset this FFY</div>
       </div>
     </div>
   </div>
