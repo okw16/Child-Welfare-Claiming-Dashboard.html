@@ -174,7 +174,8 @@ th:hover{background:#2a2a4a;}
 th.grp-financial{background:#2a5caa;}
 th.grp-financial:hover{background:#1f4e90;}
 td.grp-financial{background:#f8fafd;border-left:2px solid #2a5caa;}
-td.grp-financial-cont{background:#f8fafd;}
+td.grp-financial-cont{background:#f8fafd;border-left:1px solid #dde3ed;}
+th.grp-financial-cont{border-left:1px solid rgba(255,255,255,0.3);}
 /* Column group: caseload */
 th.grp-caseload{background:#1c9ad6;}
 th.grp-caseload:hover{background:#1585bb;}
@@ -236,8 +237,8 @@ footer a{color:#2a5caa;}
 
 <div class="tabs">
   <button class="tab-btn active" onclick="showTab('map',this)"><svg width="18" height="16" viewBox="0 0 24 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;"><polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/><circle cx="16" cy="5" r="3" fill="currentColor" stroke="none"/><line x1="16" y1="8" x2="16" y2="11" stroke-width="2"/></svg>Claiming Map</button>
-  <button class="tab-btn" onclick="showTab('table',this)"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="vertical-align:middle;margin-right:5px;"><rect x="1" y="1" width="12" height="3" rx="1"/><rect x="1" y="6" width="12" height="2" rx="0.5"/><rect x="1" y="10" width="12" height="2" rx="0.5"/><rect x="1" y="1" width="3" height="11" rx="0.5" opacity="0.3"/></svg>State Data Table</button>
   <button class="tab-btn" onclick="showTab('trends',this)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" style="vertical-align:middle;margin-right:5px;"><line x1="2" y1="14" x2="2" y2="2" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="14" x2="14" y2="14" stroke-width="2" stroke-linecap="round"/><polyline points="2,11 5,8 8,9 11,5 14,2" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><polyline points="11,2 14,2 14,5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Trends Over Time</button>
+  <button class="tab-btn" onclick="showTab('table',this)"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="vertical-align:middle;margin-right:5px;"><rect x="1" y="1" width="12" height="3" rx="1"/><rect x="1" y="6" width="12" height="2" rx="0.5"/><rect x="1" y="10" width="12" height="2" rx="0.5"/><rect x="1" y="1" width="3" height="11" rx="0.5" opacity="0.3"/></svg>Jurisdiction Data Table</button>
 </div>
 
 <main>
@@ -274,7 +275,7 @@ footer a{color:#2a5caa;}
 
 <!-- STATE PROFILE VIEW -->
 <div id="view-profile" class="view">
-  <button class="profile-back" onclick="backToMap()">← Back to Map</button>
+  <button class="profile-back" onclick="backToMap()" id="profile-back-btn">← Back to Map</button>
   <div id="profile-content"></div>
 </div>
 
@@ -290,6 +291,8 @@ footer a{color:#2a5caa;}
       <button class="yr-btn" onclick="setYear(2022,this,'table')">FFY 2022</button>
       <span class="yr-div">·</span>
       <button class="yr-btn active" onclick="setYear(2023,this,'table')">FFY 2023</button>
+      <span class="yr-div">·</span>
+      <button class="yr-btn" onclick="setTableAllYears(this)">All Years</button>
     </div>
   </div>
 
@@ -437,7 +440,18 @@ function pct(a,b){return b>0?Math.round(a/b*100)+'%':'—';}
 function tc(v,mx){if(v<=0)return'#f5e6c8';const t=Math.pow(v/mx,.4);return t<.5?`rgb(${Math.round(214+(42-214)*t*2)},${Math.round(238+(92-238)*t*2)},${Math.round(248+(170-248)*t*2)})`:`rgb(${Math.round(42+(33-42)*(t-.5)*2)},${Math.round(92+(51-92)*(t-.5)*2)},${Math.round(170+(104-170)*(t-.5)*2)})`;}
 
 // ── YEAR / METRIC ──
+let tableAllYears = false;
+let profileSource = 'map'; // 'map' or 'table'
+
+function setTableAllYears(btn){
+  tableAllYears = true;
+  document.querySelectorAll('#view-table .yr-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
 function setYear(yr,btn,context){
+  tableAllYears = false;
   CY=yr;
   // sync all yr-btn groups to match selected year
   document.querySelectorAll('.yr-btn').forEach(b=>{
@@ -568,8 +582,14 @@ function renderNatYear(yr){
 }
 function backToMap(){
   document.getElementById('view-profile').classList.remove('active');
-  document.getElementById('view-map').classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('active',i===0);});
+  if(profileSource === 'table'){
+    document.getElementById('view-table').classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.toggle('active',b.textContent.includes('State Data'));});
+  } else {
+    document.getElementById('view-map').classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('active',i===0);});
+  }
+  window.scrollTo(0,0);
 }
 
 // ── MAP ──
@@ -617,15 +637,20 @@ function buildMap(){
 // ── STATE PROFILE ──
 let profileMode='$'; // '$' or '%'
 
-function openProfile(abbr){
+function openProfile(abbr, source='map'){
+  profileSource = source;
   const allRows={};YEARS.forEach(y=>{const m=ba(y);if(m[abbr])allRows[y]=m[abbr];});
   const latestRow=allRows[CY]||allRows[Math.max(...Object.keys(allRows).map(Number))];
   if(!latestRow)return;
 
-  document.getElementById('view-map').classList.remove('active');
+  // Hide ALL views before showing profile
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-profile').classList.add('active');
+  const backBtn=document.getElementById('profile-back-btn');
+  if(backBtn) backBtn.textContent = source==='table' ? '← Back to Table' : '← Back to Map';
   profileMode='$';
   renderProfileContent(abbr,allRows,latestRow);
+  window.scrollTo(0,0);
 }
 
 function renderProfileContent(abbr,allRows,latestRow){
@@ -644,8 +669,7 @@ function renderProfileContent(abbr,allRows,latestRow){
         <div class="profile-sub">Plan effective: ${latestRow.plan_date}</div>
       </div>
       <div class="profile-kpis">
-        <div class="pkpi"><div class="pkpi-val">${fmt$(tot)}</div><div class="pkpi-lbl">Total Claimed (FFP) (FY${CY})</div></div>
-        <div class="pkpi"><div class="pkpi-val">${fmt$(totalFFP)}</div><div class="pkpi-lbl">Cumulative FFP (All Years)</div></div>
+        ${profileSource==='table' ? `<div class="pkpi"><div class="pkpi-val">${fmt$(totalFFP)}</div><div class="pkpi-lbl">Cumulative IV-E Prevention Claiming (FFP) · FFY2020–2023</div></div>` : `<div class="pkpi"><div class="pkpi-val">${fmt$(tot)}</div><div class="pkpi-lbl">Total Claimed (FFP) · FFY ${CY}</div></div><div class="pkpi"><div class="pkpi-val">${fmt$(totalFFP)}</div><div class="pkpi-lbl">Cumulative FFP (All Years)</div></div>`}
       </div>
     </div>
 
@@ -923,21 +947,36 @@ function tipFA(e,el){showTip(e,el.getAttribute('data-tip').replace(/&lt;br&gt;/g
 function applySort(col){if(SC===col)SA=!SA;else{SC=col;SA=(col==='state'||col==='plan_date');}document.getElementById('sf').value=col;renderTable();}
 function renderTable(){
   const q=document.getElementById('search-input').value.toLowerCase(),cf=document.getElementById('cf').value;
+
+  if(tableAllYears){
+    // Build cumulative rows by aggregating all years per state
+    const stateMap={};
+    YEARS.forEach(y=>{
+      ALL[y].forEach(d=>{
+        if(!d.state) return;
+        if(!stateMap[d.state]) stateMap[d.state]={state:d.state,abbr:d.abbr,plan_date:d.plan_date,total_psp_ffp:0,admin_ffp:0,training_ffp:0,total_ffp:0,caseload:0};
+        stateMap[d.state].total_psp_ffp+=Math.max(d.total_psp_ffp,0);
+        stateMap[d.state].admin_ffp+=Math.max(d.admin_ffp,0);
+        stateMap[d.state].training_ffp+=Math.max(d.training_ffp,0);
+        stateMap[d.state].total_ffp+=Math.max(d.total_ffp,0);
+        stateMap[d.state].caseload+=d.caseload||0;
+      });
+    });
+    let rows=Object.values(stateMap).filter(d=>d.state.toLowerCase().includes(q)&&(cf==='all'||(cf==='yes'?d.total_ffp>0:d.total_ffp===0)));
+    rows.sort((a,b)=>{let av=a[SC],bv=b[SC];if(typeof av==='string'){av=av.toLowerCase();bv=bv.toLowerCase();}return SA?(av>bv?1:-1):(av<bv?1:-1);});
+    document.getElementById('tbody').innerHTML=rows.map(r=>{
+      const cl=r.total_ffp>0;
+      return`<tr onclick="${r.abbr?`openProfile('${r.abbr}','table')`:''}" style="${r.abbr?'':'cursor:default'}"><td>${r.state}${r.abbr?`<span class="abbr-badge">${r.abbr}</span>`:''}</td><td>${r.plan_date}</td><td><span class="badge ${cl?'badge-yes':'badge-no'}">${cl?'Yes':'No'}</span></td><td class="num grp-financial">${fmt$(r.total_psp_ffp)}</td><td class="num grp-financial-cont">${fmt$(r.admin_ffp)}</td><td class="num grp-financial-cont">${fmt$(r.training_ffp)}</td><td class="num grp-financial-cont"><strong>${fmt$(r.total_ffp)}</strong></td><td class="num grp-caseload">${fmtN(r.caseload/YEARS.length)}</td></tr>`;
+    }).join('');
+    return;
+  }
+
   let rows=cd().filter(d=>d.state.toLowerCase().includes(q)&&(cf==='all'||(cf==='yes'?d.total_ffp>0:d.total_ffp===0)));
   rows.sort((a,b)=>{let av=a[SC],bv=b[SC];if(typeof av==='string'){av=av.toLowerCase();bv=bv.toLowerCase();}return SA?(av>bv?1:-1):(av<bv?1:-1);});
   const mx=Math.max(...cd().map(d=>d.total_ffp),1);
   document.getElementById('tbody').innerHTML=rows.map(r=>{
     const cl=r.total_ffp>0;
-    return`<tr onclick="${r.abbr?`openProfile('${r.abbr}')`:''}" style="${r.abbr?'':'cursor:default'}">
-      <td>${r.state}${r.abbr?`<span class="abbr-badge">${r.abbr}</span>`:''}</td>
-      <td>${r.plan_date}</td>
-      <td><span class="badge ${cl?'badge-yes':'badge-no'}">${cl?'Yes':'No'}</span></td>
-      <td class="num grp-financial">${fmt$(r.total_psp_ffp)}</td>
-      <td class="num grp-financial-cont">${fmt$(r.admin_ffp)}</td>
-      <td class="num grp-financial-cont">${fmt$(r.training_ffp)}</td>
-      <td class="num grp-financial-cont"><strong>${fmt$(r.total_ffp)}</strong></td>
-      <td class="num grp-caseload">${fmtN(r.caseload)}</td>
-    </tr>`;
+    return`<tr onclick="${r.abbr?`openProfile('${r.abbr}','table')`:''}" style="${r.abbr?'':'cursor:default'}"><td>${r.state}${r.abbr?`<span class="abbr-badge">${r.abbr}</span>`:''}</td><td>${r.plan_date}</td><td><span class="badge ${cl?'badge-yes':'badge-no'}">${cl?'Yes':'No'}</span></td><td class="num grp-financial">${fmt$(r.total_psp_ffp)}</td><td class="num grp-financial-cont">${fmt$(r.admin_ffp)}</td><td class="num grp-financial-cont">${fmt$(r.training_ffp)}</td><td class="num grp-financial-cont"><strong>${fmt$(r.total_ffp)}</strong></td><td class="num grp-caseload">${fmtN(r.caseload)}</td></tr>`;
   }).join('');
 }
 
