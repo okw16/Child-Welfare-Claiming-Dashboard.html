@@ -219,13 +219,7 @@ footer a{color:#2a5caa;}
   .profile-grid,.charts-grid,.trends-grid{grid-template-columns:1fr;}
   .chart-card.full,.pcard.full{grid-column:1;}
 }
-@media(max-width:600px){
-  .stat-lbl{display:flex;flex-direction:column;}
-  .stat-yr{display:block;margin-top:2px;opacity:0.75;}
-  .nat-stat-row{flex-wrap:wrap;gap:12px;justify-content:flex-start;}
-  .stat-item{padding:0 8px;}
-  .stat-divider{display:none;}
-}
+
 </style>
 </head>
 <body>
@@ -546,7 +540,7 @@ function showNatYear(yr,btn){
     YEARS.forEach(y=>ALL[y].forEach(d=>{if(d.state&&d.total_ffp>0)everClaimed.add(d.state);}));
     const el=document.getElementById('nat-stat-all');
     if(el) el.innerHTML=`
-      <div class="stat-item"><div class="stat-val">${fmt$(totalFFP)}</div><div class="stat-lbl">Total Claimed (FFP)<span class="stat-yr">FFY2020–2023</span></div></div>
+      <div class="stat-item"><div class="stat-val">${fmt$(totalFFP)}</div><div class="stat-lbl">Total Claimed (FFP) — FFY2020–2023</div></div>
       <div class="stat-divider"></div>
       <div class="stat-item"><div class="stat-val">${everClaimed.size}</div><div class="stat-lbl">Jurisdictions That Have Claimed</div></div>`;
     // Force re-render donuts (already pre-rendered but re-render to be safe)
@@ -562,11 +556,11 @@ function renderNatYear(yr){
   const cl=d.filter(r=>r.total_ffp>0).length;
   // stat row
   document.getElementById('nat-stat-'+yr).innerHTML=`
-    <div class="stat-item"><div class="stat-val">${fmt$(tot)}</div><div class="stat-lbl">Total Claimed (FFP)<span class="stat-yr">FFY ${yr}</span></div></div>
+    <div class="stat-item"><div class="stat-val">${fmt$(tot)}</div><div class="stat-lbl">Total Claimed (FFP) in FFY ${yr}</div></div>
     <div class="stat-divider"></div>
-    <div class="stat-item"><div class="stat-val">${cas.toLocaleString()}</div><div class="stat-lbl">Children Served (Monthly Avg.)<span class="stat-yr">FFY ${yr}</span></div></div>
+    <div class="stat-item"><div class="stat-val">${cas.toLocaleString()}</div><div class="stat-lbl">Children Served (Monthly Avg.) in FFY ${yr}</div></div>
     <div class="stat-divider"></div>
-    <div class="stat-item"><div class="stat-val">${cl}</div><div class="stat-lbl">Jurisdictions Claiming<span class="stat-yr">FFY ${yr}</span></div></div>`;
+    <div class="stat-item"><div class="stat-val">${cl}</div><div class="stat-lbl">Jurisdictions Claiming in FFY ${yr}</div></div>`;
   // donuts
   const wrap=document.getElementById('nat-donuts-'+yr);
   wrap.innerHTML=`
@@ -667,9 +661,9 @@ function buildMap(){
   const claimingCount=yearData.filter(d=>d.total_ffp>0).length;
   const banner=document.getElementById('map-stat-banner');
   if(banner) banner.innerHTML=`
-    <div class="stat-item"><div class="stat-val">${fmt$(totalFFP)}</div><div class="stat-lbl">Total IV-E Prevention Claiming (FFP)<span class="stat-yr">FFY ${CY}</span></div></div>
+    <div class="stat-item"><div class="stat-val">${fmt$(totalFFP)}</div><div class="stat-lbl">Total IV-E Prevention Claiming (FFP) · FFY ${CY}</div></div>
     <div class="stat-divider"></div>
-    <div class="stat-item"><div class="stat-val">${claimingCount}</div><div class="stat-lbl">States Claiming<span class="stat-yr">FFY ${CY}</span></div></div>`;
+    <div class="stat-item"><div class="stat-val">${claimingCount}</div><div class="stat-lbl">States Claiming · FFY ${CY}</div></div>`;
 }
 
 // ── STATE PROFILE ──
