@@ -45,15 +45,15 @@ body{font-family:'Segoe UI','DM Sans',sans-serif;background:var(--cream);color:v
 .tab-stat-row{background:var(--white);border-bottom:1px solid var(--slate-light);padding:12px 20px;display:flex;align-items:center;gap:0;flex-wrap:wrap;}
 
 /* ── NAT STAT ROW ── */
-.nat-stat-row{display:flex;align-items:center;gap:0;flex-wrap:nowrap;overflow-x:auto;background:var(--white);border:1px solid var(--slate-light);border-radius:10px;padding:14px 20px;margin-bottom:18px;box-shadow:var(--shadow);}
+.nat-stat-row{display:flex;align-items:center;gap:0;flex-wrap:nowrap;overflow-x:auto;background:var(--white);border:1px solid var(--slate-light);border-radius:10px;padding:clamp(8px,1.5vw,14px) clamp(10px,2vw,20px);margin-bottom:18px;box-shadow:var(--shadow);}
 
 /* ── STAT ROW (legacy, keep for tab-stat-row) ── */
 .stat-row{background:var(--white);border-bottom:1px solid var(--slate-light);padding:14px 36px;display:flex;align-items:center;gap:0;flex-wrap:wrap;}
-.stat-item{display:flex;flex-direction:column;align-items:flex-start;padding:0 28px;flex-shrink:0;}
+.stat-item{display:flex;flex-direction:column;align-items:flex-start;padding:0 clamp(10px,2vw,28px);flex-shrink:0;}
 .stat-item:first-child{padding-left:0;}
-.stat-val{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:1.6rem;color:#213368;line-height:1;}
-.stat-lbl{font-size:.68rem;color:var(--slate);text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
-.stat-divider{width:1px;height:36px;background:var(--slate-light);flex-shrink:0;}
+.stat-val{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(1rem,2.5vw,1.6rem);color:#213368;line-height:1;}
+.stat-lbl{font-size:clamp(.55rem,1vw,.68rem);color:var(--slate);text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
+.stat-divider{width:1px;height:clamp(24px,3vw,36px);background:var(--slate-light);flex-shrink:0;}
 
 /* ── HEADER ── */
 header{background:linear-gradient(135deg,#172444 0%,#213368 100%);border-bottom:4px solid #8b0021;color:var(--cream);padding:24px 36px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;}
@@ -62,8 +62,8 @@ header{background:linear-gradient(135deg,#172444 0%,#213368 100%);border-bottom:
 .hdr-meta{font-size:clamp(.65rem,0.85vw,.95rem);color:#a8c0d8;margin-top:4px;letter-spacing:.02em;}
 .hstats{display:flex;gap:22px;flex-wrap:wrap;}
 .hstat{text-align:right;}
-.hstat-val{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:1.4rem;color:#1d99d5;line-height:1;}
-.hstat-lbl{font-size:.62rem;color:#a8c0d8;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+.hstat-val{font-family:'Adobe Garamond Pro','Garamond','DM Serif Display',Georgia,serif;font-size:clamp(.9rem,2vw,1.4rem);color:#1d99d5;line-height:1;}
+.hstat-lbl{font-size:clamp(.5rem,0.9vw,.62rem);color:#a8c0d8;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
 
 /* ── YEAR BAR ── */
 .year-bar{background:#111d38;border-top:1px solid rgba(255,255,255,.07);padding:0 36px;display:flex;align-items:center;}
@@ -166,7 +166,7 @@ main{padding:20px 36px;}
 #search-input:focus{border-color:#1c9ad6;}
 .fsel{padding:6px 9px;border:1.5px solid var(--slate-light);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.76rem;color:var(--ink);background:var(--white);outline:none;cursor:pointer;}
 .tbl-card{background:var(--white);border-radius:10px;box-shadow:var(--shadow);overflow:hidden;}
-table{width:100%;border-collapse:collapse;font-size:.76rem;}
+table{width:100%;border-collapse:collapse;font-size:clamp(.65rem,1.2vw,.76rem);}
 thead tr{background:#213368;color:var(--cream);}
 th{padding:9px 11px;text-align:left;font-weight:500;font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap;}
 th:hover{background:#2a2a4a;}
@@ -320,6 +320,7 @@ footer a{color:#2a5caa;}
     </select>
   </div>
   <div class="tbl-card">
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
     <table>
       <thead><tr>
         <th onclick="applySort('state')">Jurisdiction</th>
@@ -333,6 +334,7 @@ footer a{color:#2a5caa;}
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
+    </div>
   </div>
 </div>
 
